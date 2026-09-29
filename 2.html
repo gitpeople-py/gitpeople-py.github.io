@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎰 3 в ряд • Братское казино</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+        }
+        body {
+            background: linear-gradient(145deg, #0a0d14 0%, #191f2b 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+        }
+        .casino {
+            max-width: 720px;
+            width: 100%;
+            background: rgba(28, 33, 46, 0.88);
+            backdrop-filter: blur(3px);
+            border: 3px solid #f3b345;
+            border-radius: 56px;
+            padding: 28px 22px 34px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 0 2px #6b4d26 inset, 0 0 30px #f3b34566;
+        }
+        h1 {
+            font-size: 2.6rem;
+            font-weight: 800;
+            text-align: center;
+            color: #f7d98c;
+            text-shadow: 0 4px 0 #6b4513, 0 0 25px #ffb347;
+            letter-spacing: 2px;
+            margin-bottom: 4px;
+        }
+        .sub {
+            text-align: center;
+            color: #b9b3a0;
+            font-weight: 500;
+            letter-spacing: 2px;
+            border-top: 1px solid #f3b34566;
+            border-bottom: 1px solid #f3b34566;
+            padding: 8px 0;
+            margin-bottom: 22px;
+            font-size: 1rem;
+            text-transform: uppercase;
+        }
+        .balance-box {
+            background: #1a1f2b;
+            border-radius: 60px;
+            padding: 10px 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #f3b345;
+            box-shadow: inset 0 2px 10px #00000099;
+            margin-bottom: 22px;
+            flex-wrap: wrap;
+            gap: 6px 12px;
+        }
+        .balance-label {
+            color: #b9b3a0;
+            font-weight: 600;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+        }
+        .balance-value {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #f7d98c;
+            text-shadow: 0 2px 0 #6b4513;
+            background: #0e121b;
+            padding: 0 18px;
+            border-radius: 40px;
+            line-height: 1.6;
+            letter-spacing: 1px;
+            word-break: break-all;
+            text-align: right;
+            max-width: 100%;
+        }
+        .wheel-wrap {
+            background: radial-gradient(circle at 30% 30%, #2f3749, #12161f);
+            border-radius: 100px;
+            padding: 22px 12px 14px 12px;
+            border: 4px solid #b8863a;
+            box-shadow: inset 0 -6px 0 #3f2e14, 0 12px 30px #000000bb;
+            margin-bottom: 18px;
+        }
+        .wheel {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px 14px;
+            background: #161c26;
+            padding: 18px 14px;
+            border-radius: 80px;
+            border: 2px solid #dba44b;
+            box-shadow: inset 0 0 24px #00000099;
+        }
+        .cell {
+            background: #232b3b;
+            border-radius: 40px;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #eee5d0;
+            border: 3px solid #4d3f2b;
+            box-shadow: 0 5px 0 #0b0e14, 0 8px 16px rgba(0,0,0,0.6);
+            transition: 0.08s linear;
+            cursor: default;
+            text-shadow: 0 3px 4px black;
+        }
+        .cell.highlight {
+            background: #f3b345;
+            border-color: #ffe484;
+            color: #1a1a1a;
+            box-shadow: 0 0 30px #ffb347, 0 5px 0 #6b4513;
+            transform: scale(1.03);
+        }
+        .cell.match {
+            background: #4caf50;
+            border-color: #8bc34a;
+            box-shadow: 0 0 40px #4caf50aa, 0 5px 0 #1e4a1e;
+            color: #fff;
+        }
+        .bet-area {
+            background: #121824;
+            border-radius: 60px;
+            padding: 18px 18px 16px;
+            border: 1px solid #f3b34577;
+            margin: 14px 0 18px;
+            box-shadow: inset 0 4px 14px #000000aa;
+        }
+        .bet-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 12px 10px;
+        }
+        .bet-label {
+            color: #d4c9b0;
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-right: 4px;
+        }
+        .bet-input {
+            background: #0f131c;
+            border: 2px solid #f3b345;
+            border-radius: 40px;
+            padding: 8px 16px;
+            width: 170px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #f7d98c;
+            text-align: center;
+            outline: none;
+            box-shadow: inset 0 2px 8px black;
+        }
+        .bet-input:focus {
+            border-color: #ffd966;
+            background: #1a212e;
+        }
+        .bet-actions {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 14px 16px;
+            margin-top: 16px;
+        }
+        .btn {
+            background: #262f3f;
+            border: none;
+            border-bottom: 6px solid #0f131c;
+            padding: 12px 28px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #eee5d0;
+            letter-spacing: 1px;
+            transition: 0.06s linear;
+            cursor: pointer;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.5);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            flex: 1 1 auto;
+            min-width: 110px;
+            text-transform: uppercase;
+        }
+        .btn:active {
+            transform: translateY(4px);
+            border-bottom-width: 2px;
+        }
+        .btn-primary {
+            background: #f3b345;
+            border-bottom-color: #8f6220;
+            color: #1a1a1a;
+            text-shadow: 0 1px 0 #ffd966;
+        }
+        .btn-primary:active {
+            background: #d4922f;
+        }
+        .btn-success {
+            background: #3f8f5c;
+            border-bottom-color: #1d4f2e;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #f3b345;
+            border-bottom: 6px solid #6b4d26;
+            color: #f3b345;
+        }
+        .result-box {
+            background: #0d121c;
+            border-radius: 60px;
+            padding: 10px 18px;
+            border-left: 6px solid #f3b345;
+            border-right: 6px solid #f3b345;
+            margin: 14px 0 8px;
+            text-align: center;
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px 20px;
+        }
+        .result-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #f7d98c;
+            letter-spacing: 1px;
+        }
+        .result-number {
+            background: #1f2737;
+            padding: 0 18px;
+            border-radius: 40px;
+            font-size: 2.6rem;
+            font-weight: 800;
+            color: #f3b345;
+            border: 1px solid #f3b345;
+            line-height: 1.5;
+        }
+        .footer-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 10px;
+            gap: 10px;
+        }
+        .btn-sm {
+            padding: 6px 16px;
+            font-size: 0.9rem;
+            min-width: auto;
+        }
+        @media (max-width: 550px) {
+            .casino { padding: 16px 10px; }
+            .wheel { gap: 8px; padding: 12px 8px; }
+            .cell { font-size: 2rem; padding: 14px 0; }
+            .balance-value { font-size: 1.1rem; }
+            .btn { font-size: 1rem; padding: 10px 14px; min-width: 80px; }
+        }
+    </style>
+</head>
+<body>
+<div class="casino" id="app">
+    <h1>🎰 3 В РЯД</h1>
+    <div class="sub">💪 БРАТСКИЙ СЛОТ</div>
+
+    <div class="balance-box">
+        <span class="balance-label">💰 БАЛАНС</span>
+        <span class="balance-value" id="balanceDisplay">1000000000000000000000000</span>
+    </div>
+
+    <div class="wheel-wrap">
+        <div class="wheel" id="wheelContainer">
+            <!-- 3 ячейки генерируются через JS -->
+        </div>
+    </div>
+
+    <div class="bet-area">
+        <div class="bet-row">
+            <span class="bet-label">⚡ СТАВКА</span>
+            <input type="text" id="betInput" class="bet-input" value="50">
+        </div>
+        <div class="bet-actions">
+            <button class="btn btn-primary" id="spinBtn">🎲 КРУТИТЬ</button>
+            <button class="btn btn-success" id="resetBtn">🔄 СБРОС</button>
+        </div>
+    </div>
+
+    <div class="result-box" id="resultBox">
+        <span class="result-text">⚡ ЖМИ КРУТИТЬ</span>
+        <span class="result-number" id="resultNumber">--</span>
+    </div>
+
+    <div class="footer-actions">
+        <button class="btn btn-outline btn-sm" id="doubleBtn">x2 СТАВКА</button>
+        <button class="btn btn-outline btn-sm" id="halfBtn">x0.5 СТАВКА</button>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // ====== 3 ячейки, нужно чтобы все совпали ======
+        const symbols = [ '🍒', '💎', '7️⃣' ];
+        const matchMultiplier = {
+            '🍒': 3.0,
+            '💎': 5.0,
+            '7️⃣': 8.0
+        };
+
+        // НАЧАЛЬНЫЙ БАЛАНС = 10^24
+        const START_BALANCE = 1e24; // 1 с 24 нулями
+
+        // DOM
+        const wheelEl = document.getElementById('wheelContainer');
+        const balanceSpan = document.getElementById('balanceDisplay');
+        const betInput = document.getElementById('betInput');
+        const spinBtn = document.getElementById('spinBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const doubleBtn = document.getElementById('doubleBtn');
+        const halfBtn = document.getElementById('halfBtn');
+        const resultNumber = document.getElementById('resultNumber');
+        const resultText = document.querySelector('.result-text');
+
+        let balance = START_BALANCE;
+
+        // Форматирование больших чисел (чтобы не превращалось в 1e+24)
+        function formatBalance(value) {
+            if (!isFinite(value)) return '∞';
+            // Если число очень большое, используем toLocaleString с максимальной точностью
+            // Но для 1e24 лучше преобразовать в строку без экспоненты
+            if (value >= 1e21) {
+                // BigInt не поддерживает дробные, но у нас целые (или почти целые)
+                // Преобразуем через toFixed(0) и потом уберём лишнее
+                return BigInt(Math.floor(value)).toLocaleString('ru-RU');
+            }
+            return Math.floor(value).toLocaleString('ru-RU');
+        }
+
+        // Обновление баланса на экране
+        function updateBalanceUI() {
+            balanceSpan.textContent = formatBalance(balance);
+        }
+
+        // Парсинг ставки (может быть большим числом)
+        function parseBet(str) {
+            // Убираем все кроме цифр и точки
+            const cleaned = str.toString().replace(/[^\d.]/g, '');
+            const num = parseFloat(cleaned);
+            if (isNaN(num) || num < 1) return 1;
+            return Math.floor(num);
+        }
+
+        // Рендер 3 ячеек
+        function renderWheel() {
+            wheelEl.innerHTML = '';
+            for (let i = 0; i < 3; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'cell';
+                cell.dataset.index = i;
+                cell.textContent = '❓';
+                wheelEl.appendChild(cell);
+            }
+        }
+        renderWheel();
+
+        function clearHighlights() {
+            document.querySelectorAll('.cell').forEach(c => {
+                c.classList.remove('highlight', 'match');
+            });
+        }
+
+        function setCells(symbolsArray) {
+            const cells = document.querySelectorAll('.cell');
+            cells.forEach((cell, idx) => {
+                cell.textContent = symbolsArray[idx] || '❓';
+            });
+        }
+
+        function highlightMatches(matchIndex) {
+            clearHighlights();
+            const cells = document.querySelectorAll('.cell');
+            if (matchIndex !== -1) {
+                cells.forEach(cell => cell.classList.add('match'));
+            } else {
+                cells.forEach(cell => cell.classList.add('highlight'));
+            }
+        }
+
+        function setResult(symbol, winAmount, isMatch) {
+            if (isMatch && winAmount > 0) {
+                resultText.innerHTML = `🔥 ДЖЕКПОТ! +${formatBalance(winAmount)} ₽`;
+            } else if (winAmount > 0) {
+                resultText.innerHTML = `✅ ВЫИГРЫШ +${formatBalance(winAmount)} ₽`;
+            } else {
+                resultText.innerHTML = '💀 ПРОИГРЫШ, БРАТ';
+            }
+            resultNumber.textContent = symbol || '--';
+        }
+
+        // === ОСНОВНОЙ СПИН ===
+        function spin() {
+            let bet = parseBet(betInput.value);
+            if (bet > balance) {
+                // Если ставка больше баланса — ставим весь баланс (если он есть)
+                if (balance >= 1) {
+                    bet = balance;
+                } else {
+                    alert('❌ Не хватает бабла, брат! Даже на минимальную ставку.');
+                    return;
+                }
+            }
+
+            // Списываем ставку
+            balance -= bet;
+            updateBalanceUI();
+
+            // Генерируем 3 случайных символа
+            const result = [];
+            for (let i = 0; i < 3; i++) {
+                const randomIndex = Math.floor(Math.random() * symbols.length);
+                result.push(symbols[randomIndex]);
+            }
+
+            setCells(result);
+
+            const allMatch = (result[0] === result[1] && result[1] === result[2]);
+            let win = 0;
+            let matchSymbol = result[0];
+
+            if (allMatch) {
+                const multiplier = matchMultiplier[matchSymbol] || 0;
+                win = bet * multiplier; // может быть огромным
+                balance += win;
+                highlightMatches(0);
+            } else {
+                highlightMatches(-1);
+                win = 0;
+            }
+
+            setResult(allMatch ? matchSymbol : '❌', win, allMatch);
+            updateBalanceUI();
+
+            if (balance < 1) {
+                setTimeout(() => {
+                    alert('💰 Ты на мели, брат! Жми "СБРОС" и начинай заново.');
+                }, 120);
+            }
+        }
+
+        // Сброс до START_BALANCE
+        function resetBalance() {
+            balance = START_BALANCE;
+            updateBalanceUI();
+            clearHighlights();
+            resultText.innerHTML = '🔄 БАЛАНС СБРОШЕН';
+            resultNumber.textContent = '1e24';
+            betInput.value = '50';
+            setCells(['❓', '❓', '❓']);
+        }
+
+        // Управление ставкой (работает с большими числами)
+        function doubleBet() {
+            let val = parseBet(betInput.value);
+            let newVal = val * 2;
+            if (newVal > balance) newVal = balance;
+            if (newVal < 1) newVal = 1;
+            betInput.value = Math.floor(newVal).toString();
+        }
+
+        function halfBet() {
+            let val = parseBet(betInput.value);
+            let newVal = Math.floor(val / 2);
+            if (newVal < 1) newVal = 1;
+            betInput.value = newVal.toString();
+        }
+
+        // --- Обработчики ---
+        spinBtn.addEventListener('click', spin);
+
+        resetBtn.addEventListener('click', function() {
+            resetBalance();
+            resultNumber.textContent = '--';
+        });
+
+        doubleBtn.addEventListener('click', doubleBet);
+        halfBtn.addEventListener('click', halfBet);
+
+        // Валидация ввода ставки
+        betInput.addEventListener('change', function() {
+            let val = parseBet(this.value);
+            if (val > balance) val = Math.floor(balance);
+            if (val < 1) val = 1;
+            this.value = val.toString();
+        });
+
+        betInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') spin();
+        });
+
+        // Инициализация
+        updateBalanceUI();
+        resultNumber.textContent = '--';
+        setCells(['❓', '❓', '❓']);
+    })();
+</script>
+</body>
+</html>
