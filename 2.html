@@ -275,7 +275,7 @@
 
     <div class="balance-box">
         <span class="balance-label">💰 БАЛАНС</span>
-        <span class="balance-value" id="balanceDisplay">1000000000000000000000000</span>
+        <span class="balance-value" id="balanceDisplay">100</span>
     </div>
 
     <div class="wheel-wrap">
@@ -316,8 +316,8 @@
             '7️⃣': 8.0
         };
 
-        // НАЧАЛЬНЫЙ БАЛАНС = 10^24
-        const START_BALANCE = 1e24; // 1 с 24 нулями
+        // НАЧАЛЬНЫЙ БАЛАНС = 100 (как 100 см)
+        const START_BALANCE = 100;
 
         // DOM
         const wheelEl = document.getElementById('wheelContainer');
@@ -332,16 +332,9 @@
 
         let balance = START_BALANCE;
 
-        // Форматирование больших чисел (чтобы не превращалось в 1e+24)
+        // Форматирование баланса (обычное, без экспоненты)
         function formatBalance(value) {
             if (!isFinite(value)) return '∞';
-            // Если число очень большое, используем toLocaleString с максимальной точностью
-            // Но для 1e24 лучше преобразовать в строку без экспоненты
-            if (value >= 1e21) {
-                // BigInt не поддерживает дробные, но у нас целые (или почти целые)
-                // Преобразуем через toFixed(0) и потом уберём лишнее
-                return BigInt(Math.floor(value)).toLocaleString('ru-RU');
-            }
             return Math.floor(value).toLocaleString('ru-RU');
         }
 
@@ -350,9 +343,8 @@
             balanceSpan.textContent = formatBalance(balance);
         }
 
-        // Парсинг ставки (может быть большим числом)
+        // Парсинг ставки
         function parseBet(str) {
-            // Убираем все кроме цифр и точки
             const cleaned = str.toString().replace(/[^\d.]/g, '');
             const num = parseFloat(cleaned);
             if (isNaN(num) || num < 1) return 1;
@@ -410,7 +402,6 @@
         function spin() {
             let bet = parseBet(betInput.value);
             if (bet > balance) {
-                // Если ставка больше баланса — ставим весь баланс (если он есть)
                 if (balance >= 1) {
                     bet = balance;
                 } else {
@@ -438,7 +429,7 @@
 
             if (allMatch) {
                 const multiplier = matchMultiplier[matchSymbol] || 0;
-                win = bet * multiplier; // может быть огромным
+                win = bet * multiplier;
                 balance += win;
                 highlightMatches(0);
             } else {
@@ -462,12 +453,12 @@
             updateBalanceUI();
             clearHighlights();
             resultText.innerHTML = '🔄 БАЛАНС СБРОШЕН';
-            resultNumber.textContent = '1e24';
+            resultNumber.textContent = '100';
             betInput.value = '50';
             setCells(['❓', '❓', '❓']);
         }
 
-        // Управление ставкой (работает с большими числами)
+        // Управление ставкой
         function doubleBet() {
             let val = parseBet(betInput.value);
             let newVal = val * 2;
