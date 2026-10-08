@@ -320,11 +320,13 @@
 <script>
     (function() {
         // ====== 3 ячейки, нужно чтобы все совпали ======
-        const symbols = [ '🍒', '💎', '7️⃣' ];
+        const symbols = [ '🍒', '💎', '7️⃣','🔞','🤬'];
         const matchMultiplier = {
             '🍒': 3.0,
             '💎': 5.0,
-            '7️⃣': 8.0
+            '7️⃣': 8.0,
+            '🤬': 10000.0
+            '🔞': 99999999999999.0
         };
 
         // НАЧАЛЬНЫЙ БАЛАНС = 100
@@ -480,7 +482,7 @@
         function applyDeposit() {
             const amount = parseDeposit(betInput.value);
             if (amount <= 0) {
-                alert('❌ Введи число после x, например: x100');
+                alert('❌');
                 return;
             }
             balance += amount;
