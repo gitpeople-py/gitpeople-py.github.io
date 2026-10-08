@@ -166,14 +166,6 @@
             border-color: #ffd966;
             background: #1a212e;
         }
-        .bet-hint {
-            text-align: center;
-            color: #8a8477;
-            font-size: 0.85rem;
-            margin-top: 8px;
-            letter-spacing: 1px;
-        }
-        .bet-hint b { color: #f3b345; }
         .bet-actions {
             display: flex;
             flex-wrap: wrap;
@@ -297,9 +289,6 @@
             <span class="bet-label">⚡ СТАВКА</span>
             <input type="text" id="betInput" class="bet-input" value="50">
         </div>
-        <div class="bet-hint">
-            введи <b>x100</b> — добавит 100 к балансу
-        </div>
         <div class="bet-actions">
             <button class="btn btn-primary" id="spinBtn">🎲 КРУТИТЬ</button>
             <button class="btn btn-success" id="resetBtn">🔄 СБРОС</button>
@@ -319,14 +308,16 @@
 
 <script>
     (function() {
-        // ====== 3 ячейки, нужно чтобы все совпали ======
-        const symbols = [ '🍒', '💎', '7️⃣','🔞','🤬'];
+        // ====== Символы: нужно чтобы все 3 совпали ======
+        const symbols = [ '🍒', '💎', '7️⃣', '🔞', '🤬' ];
+
+        // Множители для выигрыша (умножается на ставку)
         const matchMultiplier = {
-            '🍒': 3.0,
-            '💎': 5.0,
-            '7️⃣': 8.0,
-            '🤬': 10000.0
-            '🔞': 99999999999999.0
+            '🍒': 3,
+            '💎': 5,
+            '7️⃣': 8,
+            '🔞': 999999999999,
+            '🤬': 100000
         };
 
         // НАЧАЛЬНЫЙ БАЛАНС = 100
@@ -345,9 +336,16 @@
 
         let balance = START_BALANCE;
 
-        // Форматирование баланса
+        // Форматирование баланса (поддержка огромных чисел)
         function formatBalance(value) {
             if (!isFinite(value)) return '∞';
+            if (value >= 1e21) {
+                try {
+                    return BigInt(Math.floor(value)).toLocaleString('ru-RU');
+                } catch (e) {
+                    return Math.floor(value).toLocaleString('ru-RU');
+                }
+            }
             return Math.floor(value).toLocaleString('ru-RU');
         }
 
@@ -355,12 +353,11 @@
             balanceSpan.textContent = formatBalance(balance);
         }
 
-        // Проверка: ввод начинается с 'x' (регистр не важен) — это пополнение
+        // Проверка: ввод начинается с 'x' — это пополнение
         function isDepositInput(str) {
             return /^\s*x/i.test(str.toString());
         }
 
-        // Парсинг суммы пополнения (после x)
         function parseDeposit(str) {
             const cleaned = str.toString().replace(/[^\d.]/g, '');
             const num = parseFloat(cleaned);
@@ -368,7 +365,6 @@
             return Math.floor(num);
         }
 
-        // Парсинг ставки
         function parseBet(str) {
             const cleaned = str.toString().replace(/[^\d.]/g, '');
             const num = parseFloat(cleaned);
@@ -423,9 +419,8 @@
             resultNumber.textContent = symbol || '--';
         }
 
-        // === ОСНОВНОЙ СПИН ===
+        // === СПИН ===
         function spin() {
-            // Если введено x-число — это пополнение, не спин
             if (isDepositInput(betInput.value)) {
                 applyDeposit();
                 return;
@@ -434,9 +429,9 @@
             let bet = parseBet(betInput.value);
             if (bet > balance) {
                 if (balance >= 1) {
-                    bet = balance;
+                    bet = Math.floor(balance);
                 } else {
-                    alert('❌ Не хватает бабла, брат! Даже на минимальную ставку.');
+                    alert('❌ Не хватает бабла, брат!');
                     return;
                 }
             }
@@ -445,7 +440,7 @@
             balance -= bet;
             updateBalanceUI();
 
-            // Генерируем 3 случайных символа
+            // 3 случайных символа
             const result = [];
             for (let i = 0; i < 3; i++) {
                 const randomIndex = Math.floor(Math.random() * symbols.length);
@@ -473,27 +468,25 @@
 
             if (balance < 1) {
                 setTimeout(() => {
-                    alert('💰 Ты на мели, брат! Жми "СБРОС" и начинай заново.');
+                    alert('💰 Ты на мели, брат! Жми "СБРОС".');
                 }, 120);
             }
         }
 
-        // Пополнение баланса через x-число
+        // Пополнение через x-число
         function applyDeposit() {
             const amount = parseDeposit(betInput.value);
             if (amount <= 0) {
-                alert('❌');
+                alert('❌ Введи число после x, например: x100');
                 return;
             }
             balance += amount;
             updateBalanceUI();
             resultText.innerHTML = `💎 ПОПОЛНЕНИЕ +${formatBalance(amount)} ₽`;
             resultNumber.textContent = '💰';
-            // Сбрасываем поле на обычную ставку
             betInput.value = '50';
         }
 
-        // Сброс до START_BALANCE
         function resetBalance() {
             balance = START_BALANCE;
             updateBalanceUI();
@@ -504,9 +497,7 @@
             setCells(['❓', '❓', '❓']);
         }
 
-        // Управление ставкой
         function doubleBet() {
-            // Если сейчас x-пополнение, удваиваем сумму пополнения
             if (isDepositInput(betInput.value)) {
                 const amount = parseDeposit(betInput.value);
                 betInput.value = 'x' + (amount * 2);
@@ -514,7 +505,7 @@
             }
             let val = parseBet(betInput.value);
             let newVal = val * 2;
-            if (newVal > balance) newVal = balance;
+            if (newVal > balance) newVal = Math.floor(balance);
             if (newVal < 1) newVal = 1;
             betInput.value = Math.floor(newVal).toString();
         }
@@ -543,16 +534,14 @@
         doubleBtn.addEventListener('click', doubleBet);
         halfBtn.addEventListener('click', halfBet);
 
-        // Валидация ввода ставки (только когда это не x-пополнение)
         betInput.addEventListener('change', function() {
-            if (isDepositInput(this.value)) return; // не трогаем пополнение
+            if (isDepositInput(this.value)) return;
             let val = parseBet(this.value);
             if (val > balance) val = Math.floor(balance);
             if (val < 1) val = 1;
             this.value = val.toString();
         });
 
-        // На Enter: если x-число — пополняем, иначе крутим
         betInput.addEventListener('keydown', function(e) {
             if (e.key === 'Enter') {
                 if (isDepositInput(this.value)) {
