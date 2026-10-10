@@ -3,434 +3,560 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Твист 🌀</title>
+    <title>🎰 3 в ряд • Братское казино</title>
     <style>
         * {
-            box-sizing: border-box;
             margin: 0;
-            font-family: 'Segoe UI', system-ui, sans-serif;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
         }
         body {
+            background: linear-gradient(145deg, #0a0d14 0%, #191f2b 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: radial-gradient(circle at 30% 10%, #1a2a1f, #0d1a0a);
-            margin: 0;
             padding: 16px;
         }
-        .casino-card {
-            max-width: 750px;
+        .casino {
+            max-width: 720px;
             width: 100%;
-            background: linear-gradient(145deg, #1e3b1e, #122012);
-            border-radius: 60px 60px 40px 40px;
-            padding: 30px 24px 40px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.8), inset 0 1px 4px rgba(255,215,0,0.3);
-            border: 1px solid #b8860b;
+            background: rgba(28, 33, 46, 0.88);
+            backdrop-filter: blur(3px);
+            border: 3px solid #f3b345;
+            border-radius: 56px;
+            padding: 28px 22px 34px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 0 2px #6b4d26 inset, 0 0 30px #f3b34566;
         }
         h1 {
+            font-size: 2.6rem;
+            font-weight: 800;
             text-align: center;
-            font-weight: 500;
-            letter-spacing: 3px;
-            color: #f5e56b;
-            text-shadow: 0 0 12px #ffb347, 0 2px 0 #7a5c0a;
-            margin-bottom: 28px;
-            font-size: 2.1rem;
-        }
-
-        .twist-machine {
-            background: #0a1307;
-            border-radius: 40px;
-            padding: 24px 20px 20px;
-            border: 2px solid #b8860b;
-            box-shadow: inset 0 0 30px #0f1f0a, 0 10px 0 #060d04;
-        }
-
-        .reels-container {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            margin-bottom: 24px;
-            flex-wrap: wrap;
-        }
-
-        .reel-wrapper {
-            flex: 1;
-            min-width: 120px;
-            background: #0d1a0a;
-            border-radius: 30px;
-            padding: 12px 8px;
-            border: 2px solid #7f9640;
-            box-shadow: inset 0 0 20px #1d3a14;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .reel-label {
-            text-align: center;
-            color: #7f8f5a;
-            font-size: 0.65rem;
+            color: #f7d98c;
+            text-shadow: 0 4px 0 #6b4513, 0 0 25px #ffb347;
             letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 6px;
-            font-weight: 600;
+            margin-bottom: 4px;
         }
-
-        .reel {
-            background: #0f1f0a;
-            border-radius: 20px;
+        .sub {
+            text-align: center;
+            color: #b9b3a0;
+            font-weight: 500;
+            letter-spacing: 2px;
+            border-top: 1px solid #f3b34566;
+            border-bottom: 1px solid #f3b34566;
             padding: 8px 0;
-            min-height: 100px;
+            margin-bottom: 22px;
+            font-size: 1rem;
+            text-transform: uppercase;
+        }
+        .balance-box {
+            background: #1a1f2b;
+            border-radius: 60px;
+            padding: 10px 22px;
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #f3b345;
+            box-shadow: inset 0 2px 10px #00000099;
+            margin-bottom: 22px;
+            flex-wrap: wrap;
+            gap: 6px 12px;
+        }
+        .balance-label {
+            color: #b9b3a0;
+            font-weight: 600;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+        }
+        .balance-value {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #f7d98c;
+            text-shadow: 0 2px 0 #6b4513;
+            background: #0e121b;
+            padding: 0 18px;
+            border-radius: 40px;
+            line-height: 1.6;
+            letter-spacing: 1px;
+            word-break: break-all;
+            text-align: right;
+            max-width: 100%;
+        }
+        .wheel-wrap {
+            background: radial-gradient(circle at 30% 30%, #2f3749, #12161f);
+            border-radius: 100px;
+            padding: 22px 12px 14px 12px;
+            border: 4px solid #b8863a;
+            box-shadow: inset 0 -6px 0 #3f2e14, 0 12px 30px #000000bb;
+            margin-bottom: 18px;
+        }
+        .wheel {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px 14px;
+            background: #161c26;
+            padding: 18px 14px;
+            border-radius: 80px;
+            border: 2px solid #dba44b;
+            box-shadow: inset 0 0 24px #00000099;
+        }
+        .cell {
+            background: #232b3b;
+            border-radius: 40px;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #eee5d0;
+            border: 3px solid #4d3f2b;
+            box-shadow: 0 5px 0 #0b0e14, 0 8px 16px rgba(0,0,0,0.6);
+            transition: 0.08s linear;
+            cursor: default;
+            text-shadow: 0 3px 4px black;
+        }
+        .cell.highlight {
+            background: #f3b345;
+            border-color: #ffe484;
+            color: #1a1a1a;
+            box-shadow: 0 0 30px #ffb347, 0 5px 0 #6b4513;
+            transform: scale(1.03);
+        }
+        .cell.match {
+            background: #4caf50;
+            border-color: #8bc34a;
+            box-shadow: 0 0 40px #4caf50aa, 0 5px 0 #1e4a1e;
+            color: #fff;
+        }
+        .bet-area {
+            background: #121824;
+            border-radius: 60px;
+            padding: 18px 18px 16px;
+            border: 1px solid #f3b34577;
+            margin: 14px 0 18px;
+            box-shadow: inset 0 4px 14px #000000aa;
+        }
+        .bet-row {
+            display: flex;
+            flex-wrap: wrap;
             align-items: center;
             justify-content: center;
-            gap: 4px;
-            border: 1px solid #3f642a;
-            box-shadow: inset 0 0 30px #000000;
-            transition: none;
+            gap: 12px 10px;
         }
-
-        .reel-item {
-            font-size: 2.2rem;
+        .bet-label {
+            color: #d4c9b0;
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-right: 4px;
+        }
+        .bet-input {
+            background: #0f131c;
+            border: 2px solid #f3b345;
+            border-radius: 40px;
+            padding: 8px 16px;
+            width: 170px;
+            font-size: 1.2rem;
             font-weight: 700;
-            padding: 6px 0;
+            color: #f7d98c;
             text-align: center;
-            width: 100%;
-            color: #d4c07a;
-            text-shadow: 0 0 8px #b8860b;
-            transition: none;
-            line-height: 1.4;
-            letter-spacing: 0.5px;
-            background: #0f1f0a;
-            border-radius: 12px;
+            outline: none;
+            box-shadow: inset 0 2px 8px black;
         }
-
-        .reel-item.active {
-            background: #1e3b1e;
-            color: #f5e56b;
-            text-shadow: 0 0 20px #f5b81b;
-            box-shadow: 0 0 20px rgba(245, 184, 27, 0.15);
+        .bet-input:focus {
+            border-color: #ffd966;
+            background: #1a212e;
         }
-
-        .reel.spinning .reel-item {
-            animation: twistScroll 0.08s infinite alternate;
-        }
-
-        @keyframes twistScroll {
-            0% { transform: translateY(-10px) rotate(-2deg); opacity: 0.6; }
-            100% { transform: translateY(10px) rotate(2deg); opacity: 1; }
-        }
-
-        .reel.spinning .reel-item.active {
-            background: #2a4f2a;
-            box-shadow: 0 0 30px rgba(245, 184, 27, 0.3);
-        }
-
-        .controls {
+        .bet-actions {
             display: flex;
-            gap: 14px;
-            justify-content: center;
             flex-wrap: wrap;
-            margin-top: 6px;
+            justify-content: center;
+            gap: 14px 16px;
+            margin-top: 16px;
         }
-
-        .btn-twist {
-            background: #d4a017;
+        .btn {
+            background: #262f3f;
             border: none;
-            color: #1e2b12;
-            padding: 16px 40px;
-            border-radius: 60px;
-            font-weight: 800;
-            font-size: 1.4rem;
-            box-shadow: 0 6px 0 #7a5c0a, 0 8px 20px rgba(0,0,0,0.6);
-            cursor: pointer;
-            transition: 0.08s linear;
-            border: 1px solid #f5d742;
-            letter-spacing: 2px;
-            flex: 1;
-            min-width: 160px;
-        }
-        .btn-twist:active {
-            transform: translateY(4px);
-            box-shadow: 0 2px 0 #7a5c0a;
-        }
-        .btn-twist:hover {
-            background: #f5c542;
-            color: #0f1a0c;
-        }
-        .btn-twist:disabled {
-            opacity: 0.5;
-            transform: translateY(3px);
-            box-shadow: 0 3px 0 #7a5c0a;
-            pointer-events: none;
-        }
-
-        .btn-reset {
-            background: #3a2a1a;
-            border: 1px solid #b8860b;
-            color: #f7eac6;
-            padding: 16px 24px;
+            border-bottom: 6px solid #0f131c;
+            padding: 12px 28px;
             border-radius: 60px;
             font-weight: 700;
             font-size: 1.2rem;
-            box-shadow: 0 6px 0 #1f140a;
-            cursor: pointer;
-            transition: 0.08s linear;
-            flex: 0.6;
-            min-width: 100px;
-        }
-        .btn-reset:active {
-            transform: translateY(4px);
-            box-shadow: 0 2px 0 #1f140a;
-        }
-        .btn-reset:hover {
-            background: #5a401f;
-        }
-
-        .result-display {
-            background: #0d1f0a;
-            padding: 14px 20px;
-            border-radius: 60px;
-            color: #ebdba8;
-            font-weight: 600;
-            border: 1px solid #b8860b;
-            box-shadow: inset 0 0 16px #1d3a14;
-            text-align: center;
-            font-size: 1.3rem;
+            color: #eee5d0;
             letter-spacing: 1px;
-            min-height: 4rem;
+            transition: 0.06s linear;
+            cursor: pointer;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.5);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            flex: 1 1 auto;
+            min-width: 110px;
+            text-transform: uppercase;
+        }
+        .btn:active {
+            transform: translateY(4px);
+            border-bottom-width: 2px;
+        }
+        .btn-primary {
+            background: #f3b345;
+            border-bottom-color: #8f6220;
+            color: #1a1a1a;
+            text-shadow: 0 1px 0 #ffd966;
+        }
+        .btn-primary:active {
+            background: #d4922f;
+        }
+        .btn-success {
+            background: #3f8f5c;
+            border-bottom-color: #1d4f2e;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #f3b345;
+            border-bottom: 6px solid #6b4d26;
+            color: #f3b345;
+        }
+        .result-box {
+            background: #0d121c;
+            border-radius: 60px;
+            padding: 10px 18px;
+            border-left: 6px solid #f3b345;
+            border-right: 6px solid #f3b345;
+            margin: 14px 0 8px;
+            text-align: center;
+            min-height: 70px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-top: 20px;
-            word-break: break-word;
+            flex-wrap: wrap;
+            gap: 12px 20px;
         }
-
-        .footer-note {
-            text-align: center;
-            color: #7f8f5a;
-            font-size: 0.7rem;
-            margin-top: 18px;
+        .result-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #f7d98c;
             letter-spacing: 1px;
-            opacity: 0.7;
         }
-
+        .result-number {
+            background: #1f2737;
+            padding: 0 18px;
+            border-radius: 40px;
+            font-size: 2.6rem;
+            font-weight: 800;
+            color: #f3b345;
+            border: 1px solid #f3b345;
+            line-height: 1.5;
+        }
+        .footer-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 10px;
+            gap: 10px;
+        }
+        .btn-sm {
+            padding: 6px 16px;
+            font-size: 0.9rem;
+            min-width: auto;
+        }
         @media (max-width: 550px) {
-            .casino-card { padding: 16px 12px; }
-            .reel-wrapper { min-width: 80px; padding: 8px 4px; }
-            .reel-item { font-size: 1.5rem; }
-            .reel { min-height: 70px; }
-            .btn-twist { font-size: 1.1rem; padding: 14px 20px; min-width: 120px; }
-            .btn-reset { font-size: 1rem; padding: 14px 16px; }
-            .result-display { font-size: 1rem; min-height: 3rem; }
+            .casino { padding: 16px 10px; }
+            .wheel { gap: 8px; padding: 12px 8px; }
+            .cell { font-size: 2rem; padding: 14px 0; }
+            .balance-value { font-size: 1.1rem; }
+            .btn { font-size: 1rem; padding: 10px 14px; min-width: 80px; }
         }
     </style>
 </head>
 <body>
-<div class="casino-card">
-    <h1>🌀 ТВИСТ</h1>
+<div class="casino" id="app">
+    <h1>🎰 3 В РЯД</h1>
+    <div class="sub">💪 БРАТСКИЙ СЛОТ</div>
 
-    <div class="twist-machine">
-        <div class="reels-container">
-            <!-- Колонка 1: Цвет -->
-            <div class="reel-wrapper">
-                <div class="reel-label">🎨 ЦВЕТ</div>
-                <div class="reel" id="reel1">
-                    <div class="reel-item active" id="reel1Display">—</div>
-                </div>
-            </div>
-            <!-- Колонка 2: Рука/Нога -->
-            <div class="reel-wrapper">
-                <div class="reel-label">🦾 ЧАСТЬ</div>
-                <div class="reel" id="reel2">
-                    <div class="reel-item active" id="reel2Display">—</div>
-                </div>
-            </div>
-            <!-- Колонка 3: Право/Лево -->
-            <div class="reel-wrapper">
-                <div class="reel-label">↔️ СТОРОНА</div>
-                <div class="reel" id="reel3">
-                    <div class="reel-item active" id="reel3Display">—</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="controls">
-            <button class="btn-twist" id="twistBtn">🌀 КРУТИТЬ</button>
-            <button class="btn-reset" id="resetBtn">⟳ Сброс</button>
-        </div>
-
-        <div class="result-display" id="resultDisplay">👉 Нажми «Крутить»</div>
+    <div class="balance-box">
+        <span class="balance-label">💰 БАЛАНС</span>
+        <span class="balance-value" id="balanceDisplay">100</span>
     </div>
 
-    <div class="footer-note">⚡ каждая колонка крутится и останавливается по очереди</div>
+    <div class="wheel-wrap">
+        <div class="wheel" id="wheelContainer">
+            <!-- 3 ячейки генерируются через JS -->
+        </div>
+    </div>
+
+    <div class="bet-area">
+        <div class="bet-row">
+            <span class="bet-label">⚡ СТАВКА</span>
+            <input type="text" id="betInput" class="bet-input" value="50">
+        </div>
+        <div class="bet-actions">
+            <button class="btn btn-primary" id="spinBtn">🎲 КРУТИТЬ</button>
+            <button class="btn btn-success" id="resetBtn">🔄 СБРОС</button>
+        </div>
+    </div>
+
+    <div class="result-box" id="resultBox">
+        <span class="result-text">⚡ ЖМИ КРУТИТЬ</span>
+        <span class="result-number" id="resultNumber">--</span>
+    </div>
+
+    <div class="footer-actions">
+        <button class="btn btn-outline btn-sm" id="doubleBtn">x2 СТАВКА</button>
+        <button class="btn btn-outline btn-sm" id="halfBtn">x0.5 СТАВКА</button>
+    </div>
 </div>
 
 <script>
-    (function(){
-        // ---------- Данные ----------
-        const COLORS = ['красный', 'синий', 'зелёный', 'жёлтый'];
-        const LIMBS = ['рука', 'нога'];
-        const SIDES = ['право', 'лево'];
+    (function() {
+        // ====== Символы: все выпадают с ОДИНАКОВЫМ шансом ======
+        // 5 символов → у каждого шанс 20% (1/5)
+        const symbols = [ '🍒', '💎', '7️⃣', '🔞', '🤬' ];
 
-        const COLOR_EMOJI = {
-            'красный': '🔴',
-            'синий': '🔵',
-            'зелёный': '🟢',
-            'жёлтый': '🟡'
-        };
-        const LIMB_EMOJI = {
-            'рука': '✋',
-            'нога': '🦵'
-        };
-        const SIDE_EMOJI = {
-            'право': '➡️',
-            'лево': '⬅️'
+        // Множители для выигрыша (умножается на ставку)
+        const matchMultiplier = {
+            '🍒': 3,
+            '💎': 5,
+            '7️⃣': 8,
+            '🔞': 999999999999,
+            '🤬': 100000
         };
 
-        // ---------- DOM ----------
-        const reel1Display = document.getElementById('reel1Display');
-        const reel2Display = document.getElementById('reel2Display');
-        const reel3Display = document.getElementById('reel3Display');
-        const reel1 = document.getElementById('reel1');
-        const reel2 = document.getElementById('reel2');
-        const reel3 = document.getElementById('reel3');
-        const resultDisplay = document.getElementById('resultDisplay');
-        const twistBtn = document.getElementById('twistBtn');
+        // НАЧАЛЬНЫЙ БАЛАНС = 100
+        const START_BALANCE = 100;
+
+        // DOM
+        const wheelEl = document.getElementById('wheelContainer');
+        const balanceSpan = document.getElementById('balanceDisplay');
+        const betInput = document.getElementById('betInput');
+        const spinBtn = document.getElementById('spinBtn');
         const resetBtn = document.getElementById('resetBtn');
+        const doubleBtn = document.getElementById('doubleBtn');
+        const halfBtn = document.getElementById('halfBtn');
+        const resultNumber = document.getElementById('resultNumber');
+        const resultText = document.querySelector('.result-text');
 
-        // ---------- Состояние ----------
-        let state = {
-            color: null,
-            limb: null,
-            side: null
-        };
+        let balance = START_BALANCE;
 
-        let isSpinning = false;
-        let spinTimer = null;
-
-        // ---------- Вспомогательные функции ----------
-        function getRandomItem(arr) {
-            return arr[Math.floor(Math.random() * arr.length)];
+        // Форматирование баланса (поддержка огромных чисел)
+        function formatBalance(value) {
+            if (!isFinite(value)) return '∞';
+            if (value >= 1e21) {
+                try {
+                    return BigInt(Math.floor(value)).toLocaleString('ru-RU');
+                } catch (e) {
+                    return Math.floor(value).toLocaleString('ru-RU');
+                }
+            }
+            return Math.floor(value).toLocaleString('ru-RU');
         }
 
-        function formatResult(color, limb, side) {
-            if (!color || !limb || !side) return '⏳ жди...';
-            const cEmoji = COLOR_EMOJI[color] || '';
-            const lEmoji = LIMB_EMOJI[limb] || '';
-            const sEmoji = SIDE_EMOJI[side] || '';
-            return `${cEmoji} ${color} · ${lEmoji} ${limb} · ${sEmoji} ${side}`;
+        function updateBalanceUI() {
+            balanceSpan.textContent = formatBalance(balance);
         }
 
-        function updateDisplay(color, limb, side) {
-            reel1Display.textContent = color ? `${COLOR_EMOJI[color] || ''} ${color}` : '—';
-            reel2Display.textContent = limb ? `${LIMB_EMOJI[limb] || ''} ${limb}` : '—';
-            reel3Display.textContent = side ? `${SIDE_EMOJI[side] || ''} ${side}` : '—';
-            resultDisplay.textContent = formatResult(color, limb, side);
+        // Проверка: ввод начинается с 'x' — это пополнение
+        function isDepositInput(str) {
+            return /^\s*x/i.test(str.toString());
         }
 
-        function resetAll() {
-            if (isSpinning) return;
-            state.color = null;
-            state.limb = null;
-            state.side = null;
-            updateDisplay(null, null, null);
-            resultDisplay.textContent = '👉 Нажми «Крутить»';
+        function parseDeposit(str) {
+            const cleaned = str.toString().replace(/[^\d.]/g, '');
+            const num = parseFloat(cleaned);
+            if (isNaN(num) || num < 1) return 0;
+            return Math.floor(num);
         }
 
-        // ---------- Основная функция вращения ----------
-        function twistReels() {
-            if (isSpinning) return;
+        function parseBet(str) {
+            const cleaned = str.toString().replace(/[^\d.]/g, '');
+            const num = parseFloat(cleaned);
+            if (isNaN(num) || num < 1) return 1;
+            return Math.floor(num);
+        }
 
-            isSpinning = true;
-            twistBtn.disabled = true;
-            resultDisplay.textContent = '🌀 Крутим...';
+        // Рендер 3 ячеек
+        function renderWheel() {
+            wheelEl.innerHTML = '';
+            for (let i = 0; i < 3; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'cell';
+                cell.dataset.index = i;
+                cell.textContent = '❓';
+                wheelEl.appendChild(cell);
+            }
+        }
+        renderWheel();
 
-            state.color = null;
-            state.limb = null;
-            state.side = null;
-            updateDisplay(null, null, null);
+        function clearHighlights() {
+            document.querySelectorAll('.cell').forEach(c => {
+                c.classList.remove('highlight', 'match');
+            });
+        }
 
-            reel1.classList.add('spinning');
-            reel2.classList.add('spinning');
-            reel3.classList.add('spinning');
+        function setCells(symbolsArray) {
+            const cells = document.querySelectorAll('.cell');
+            cells.forEach((cell, idx) => {
+                cell.textContent = symbolsArray[idx] || '❓';
+            });
+        }
 
-            const finalColor = getRandomItem(COLORS);
-            const finalLimb = getRandomItem(LIMBS);
-            const finalSide = getRandomItem(SIDES);
+        function highlightMatches(matchIndex) {
+            clearHighlights();
+            const cells = document.querySelectorAll('.cell');
+            if (matchIndex !== -1) {
+                cells.forEach(cell => cell.classList.add('match'));
+            } else {
+                cells.forEach(cell => cell.classList.add('highlight'));
+            }
+        }
 
-            const STAGES = [
-                { time: 400, reel: reel1, display: reel1Display, value: finalColor, type: 'color' },
-                { time: 900, reel: reel2, display: reel2Display, value: finalLimb, type: 'limb' },
-                { time: 1400, reel: reel3, display: reel3Display, value: finalSide, type: 'side' }
-            ];
+        function setResult(symbol, winAmount, isMatch) {
+            if (isMatch && winAmount > 0) {
+                resultText.innerHTML = `🔥 ДЖЕКПОТ! +${formatBalance(winAmount)} ₽`;
+            } else if (winAmount > 0) {
+                resultText.innerHTML = `✅ ВЫИГРЫШ +${formatBalance(winAmount)} ₽`;
+            } else {
+                resultText.innerHTML = '💀 ПРОИГРЫШ, БРАТ';
+            }
+            resultNumber.textContent = symbol || '--';
+        }
 
-            if (spinTimer) {
-                clearTimeout(spinTimer);
-                spinTimer = null;
+        // === СПИН ===
+        function spin() {
+            if (isDepositInput(betInput.value)) {
+                applyDeposit();
+                return;
             }
 
-            STAGES.forEach((stage, index) => {
-                const timer = setTimeout(() => {
-                    stage.reel.classList.remove('spinning');
-
-                    const emoji = stage.type === 'color' ? COLOR_EMOJI[stage.value] :
-                                  stage.type === 'limb' ? LIMB_EMOJI[stage.value] :
-                                  SIDE_EMOJI[stage.value];
-                    stage.display.textContent = `${emoji || ''} ${stage.value}`;
-
-                    if (stage.type === 'color') state.color = stage.value;
-                    else if (stage.type === 'limb') state.limb = stage.value;
-                    else if (stage.type === 'side') state.side = stage.value;
-
-                    if (index === 0) {
-                        resultDisplay.textContent = `⏳ ${state.color} · ? · ?`;
-                    } else if (index === 1) {
-                        resultDisplay.textContent = `⏳ ${state.color} · ${state.limb} · ?`;
-                    } else if (index === 2) {
-                        resultDisplay.textContent = formatResult(state.color, state.limb, state.side);
-                        isSpinning = false;
-                        twistBtn.disabled = false;
-                    }
-
-                    if (index === STAGES.length - 1) {
-                        reel1.classList.remove('spinning');
-                        reel2.classList.remove('spinning');
-                        reel3.classList.remove('spinning');
-                        updateDisplay(state.color, state.limb, state.side);
-                        isSpinning = false;
-                        twistBtn.disabled = false;
-                    }
-                }, stage.time);
-
-                if (index === STAGES.length - 1) {
-                    spinTimer = timer;
+            let bet = parseBet(betInput.value);
+            if (bet > balance) {
+                if (balance >= 1) {
+                    bet = Math.floor(balance);
+                } else {
+                    alert('❌ Не хватает бабла, брат!');
+                    return;
                 }
-            });
+            }
 
-            const safetyTimer = setTimeout(() => {
-                if (isSpinning) {
-                    reel1.classList.remove('spinning');
-                    reel2.classList.remove('spinning');
-                    reel3.classList.remove('spinning');
-                    if (!state.color) state.color = getRandomItem(COLORS);
-                    if (!state.limb) state.limb = getRandomItem(LIMBS);
-                    if (!state.side) state.side = getRandomItem(SIDES);
-                    updateDisplay(state.color, state.limb, state.side);
-                    isSpinning = false;
-                    twistBtn.disabled = false;
-                    resultDisplay.textContent = formatResult(state.color, state.limb, state.side);
-                }
-            }, 2500);
+            // Списываем ставку
+            balance -= bet;
+            updateBalanceUI();
+
+            // 3 случайных символа — каждый с равным шансом (1/5)
+            const result = [];
+            for (let i = 0; i < 3; i++) {
+                const randomIndex = Math.floor(Math.random() * symbols.length);
+                result.push(symbols[randomIndex]);
+            }
+
+            setCells(result);
+
+            const allMatch = (result[0] === result[1] && result[1] === result[2]);
+            let win = 0;
+            let matchSymbol = result[0];
+
+            if (allMatch) {
+                const multiplier = matchMultiplier[matchSymbol] || 0;
+                win = bet * multiplier;
+                balance += win;
+                highlightMatches(0);
+            } else {
+                highlightMatches(-1);
+                win = 0;
+            }
+
+            setResult(allMatch ? matchSymbol : '❌', win, allMatch);
+            updateBalanceUI();
+
+            if (balance < 1) {
+                setTimeout(() => {
+                    alert('💰 Ты на мели, брат! Жми "СБРОС".');
+                }, 120);
+            }
         }
 
-        // ---------- Инициализация ----------
-        twistBtn.addEventListener('click', twistReels);
-        resetBtn.addEventListener('click', resetAll);
+        // Пополнение через x-число
+        function applyDeposit() {
+            const amount = parseDeposit(betInput.value);
+            if (amount <= 0) {
+                alert('❌ Введи число после x, например: x100');
+                return;
+            }
+            balance += amount;
+            updateBalanceUI();
+            resultText.innerHTML = `💎 ПОПОЛНЕНИЕ +${formatBalance(amount)} ₽`;
+            resultNumber.textContent = '💰';
+            betInput.value = '50';
+        }
 
-        updateDisplay(null, null, null);
-        resultDisplay.textContent = '👉 Нажми «Крутить»';
+        function resetBalance() {
+            balance = START_BALANCE;
+            updateBalanceUI();
+            clearHighlights();
+            resultText.innerHTML = '🔄 БАЛАНС СБРОШЕН';
+            resultNumber.textContent = '100';
+            betInput.value = '50';
+            setCells(['❓', '❓', '❓']);
+        }
+
+        function doubleBet() {
+            if (isDepositInput(betInput.value)) {
+                const amount = parseDeposit(betInput.value);
+                betInput.value = 'x' + (amount * 2);
+                return;
+            }
+            let val = parseBet(betInput.value);
+            let newVal = val * 2;
+            if (newVal > balance) newVal = Math.floor(balance);
+            if (newVal < 1) newVal = 1;
+            betInput.value = Math.floor(newVal).toString();
+        }
+
+        function halfBet() {
+            if (isDepositInput(betInput.value)) {
+                const amount = parseDeposit(betInput.value);
+                const newVal = Math.floor(amount / 2);
+                betInput.value = 'x' + (newVal < 1 ? 1 : newVal);
+                return;
+            }
+            let val = parseBet(betInput.value);
+            let newVal = Math.floor(val / 2);
+            if (newVal < 1) newVal = 1;
+            betInput.value = newVal.toString();
+        }
+
+        // --- Обработчики ---
+        spinBtn.addEventListener('click', spin);
+
+        resetBtn.addEventListener('click', function() {
+            resetBalance();
+            resultNumber.textContent = '--';
+        });
+
+        doubleBtn.addEventListener('click', doubleBet);
+        halfBtn.addEventListener('click', halfBet);
+
+        betInput.addEventListener('change', function() {
+            if (isDepositInput(this.value)) return;
+            let val = parseBet(this.value);
+            if (val > balance) val = Math.floor(balance);
+            if (val < 1) val = 1;
+            this.value = val.toString();
+        });
+
+        betInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                if (isDepositInput(this.value)) {
+                    applyDeposit();
+                } else {
+                    spin();
+                }
+            }
+        });
+
+        // Инициализация
+        updateBalanceUI();
+        resultNumber.textContent = '--';
+        setCells(['❓', '❓', '❓']);
     })();
 </script>
 </body>
